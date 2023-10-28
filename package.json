@@ -3,17 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/app.js",
-    "dev": "nodemon"
+    "start": "pnpm build && node dist/app.js",
+    "compile": "rimraf ./crypt-it.exe && pkg -t latest-win-x64 ./dist/app.js -o crypt-it.exe --build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.8.9",
-    "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1"
+    "@types/inquirer": "9.0.6",
+    "@types/node": "20.8.9",
+    "pkg": "5.8.1",
+    "rimraf": "5.0.5"
+  },
+  "dependencies": {
+    "colors": "1.4.0",
+    "inquirer": "9.2.11"
   }
 }
