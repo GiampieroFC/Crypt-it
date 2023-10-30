@@ -1,15 +1,8 @@
-import { createCipheriv, createDecipheriv, randomUUID } from 'node:crypto';
+import { createCipheriv, createDecipheriv } from 'node:crypto';
 import { toNBytes } from './config/plugins/to-n-bytes.js';
 import inquirer from 'inquirer';
-import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
 import { dirname, resolve, join, extname, basename } from 'node:path';
-import { fileURLToPath } from "node:url";
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-
-// console.log({ __filename })
-// console.log({ __dirname })
 
 const dir = readdirSync('.');
 
@@ -22,7 +15,7 @@ const options = files.map(o => {
     }
 });
 
-const filesCryptit = dir.filter(f => extname(resolve(f)) === '.crypit');
+const filesCryptit = dir.filter(f => extname(resolve(f)) === '.crypted');
 const optionsCryptit = filesCryptit.map(o => {
     return {
         name: `🔐 ${o}`,
@@ -30,19 +23,6 @@ const optionsCryptit = filesCryptit.map(o => {
         short: `\n 🔐 ${o}`
     }
 });
-
-
-
-
-
-
-
-// let encrypted = cipher.update('laborum Aut sequi ducimus et. Assumenda nesciunt odit autem et asperiores mollitia reprehenderit totam. Nulla sapiente inventore velit sint molestiae. Quod sed quis.', 'utf8', 'binary');
-
-// encrypted += cipher.final('binary');
-
-
-// Main()
 
 enum Action {
     cipher = 'cipher',
@@ -76,8 +56,6 @@ const whatToDo = async () => {
 
     return toDo;
 }
-
-
 
 (async () => {
 
@@ -116,31 +94,28 @@ const whatToDo = async () => {
             }
         ]);
 
-        console.log(opt)
+
         const algorithm = 'aes-256-cbc';
         const key = Math.round(Math.random() * 100);
 
         const password = toNBytes(32, opt.password);
         const iv = toNBytes(16, key);
 
-        console.log({ password });
-        console.log({ iv });
 
         opt.files.forEach((f: string) => {
-            const text = readFileSync(f, { encoding: 'utf-8' })
+            const text = readFileSync(f, { encoding: 'utf-8' });
             const cipher = createCipheriv(algorithm, password, iv);
 
-            let encrypted = cipher.update(text, 'utf-8', 'binary')
-            encrypted += cipher.final('binary')
+            let encrypted = cipher.update(text, 'utf-8', 'binary');
+            encrypted += cipher.final('binary');
 
-            console.log({ text });
-            console.log({ encrypted });
 
-            writeFileSync(join(dirname(f), `${basename(f)}.crypit`), encrypted)
+            writeFileSync(join(dirname(f), `${basename(f)}.crypted`), encrypted);
+
+            unlinkSync(f);
         });
-        console.log({ key })
-        console.log({ iv })
-        console.log(`Remember your password and this key: ${key} to decipher your documents`)
+
+        console.log(`Remember your password and this key: ${key} to decipher your documents`);
     }
 
     if (toDo === Action.decipher) {
@@ -170,52 +145,28 @@ const whatToDo = async () => {
             },
         ]);
 
-        console.log(opt)
+
 
         const algorithm = 'aes-256-cbc';
         const password = toNBytes(32, opt.password);
         const iv = toNBytes(16, parseInt(opt.key));
-        // const decipher = createDecipheriv(algorithm, password, iv);
-
-        // let decryptedData = decipher.update(encrypted, "binary", "utf8");
-
-        // decryptedData += decipher.final("utf8");
-
-        // console.log('👉 encrypted:', encrypted);
-
-        // console.log('👉 decrypted:', decryptedData);
-
-        console.log({ parsedkey: parseInt(opt.key), });
-        console.log({ iv });
-
 
         opt.files.forEach((f: string) => {
             const binaryText = readFileSync(f, { encoding: 'utf-8' })
-            console.log({ binaryText });
-            console.log({ toString: binaryText.toString() });
 
             const decipher = createDecipheriv(algorithm, password, iv);
 
-            let decrypted = decipher.update(binaryText, 'binary', 'utf-8')
-            decrypted += decipher.final('utf-8')
+            let decrypted = decipher.update(binaryText, 'binary', 'utf-8');
+            decrypted += decipher.final('utf-8');
 
-            console.log({ decrypted });
+            const nameDecryptedFile = basename(f).split('.');
+            nameDecryptedFile.pop();
 
-            writeFileSync(join(dirname(f), `${basename(f)}`), decrypted)
+            writeFileSync(join(dirname(f), `${nameDecryptedFile.join('.')}`), decrypted);
+
+            unlinkSync(f);
         });
-
-
     }
     return
-
 }
-
-
-
-    // const password = await inquirer.prompt([
-
-    // ]);
-
-    // console.log(password);
-    // }
 )()
