@@ -10,11 +10,10 @@ export const cipherFile = (file: string, password: string) => {
     // const key = password.length;
     const iv = toNBytes(16, passwordInBytes.length);
 
-    const content = readFileSync(file, { encoding: 'utf-8' })
+    const content = readFileSync(file)
     const cipher = createCipheriv(algorithm, passwordInBytes, iv);
 
-    let encrypted = cipher.update(content, 'utf-8', 'binary');
-    encrypted += cipher.final('binary');
+    let encrypted = Buffer.concat([cipher.update(content), cipher.final()]);
 
     writeFileSync(join(dirname(file), `${basename(file)}.crypted`), encrypted);
 

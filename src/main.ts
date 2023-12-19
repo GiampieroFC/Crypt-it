@@ -14,6 +14,7 @@ const dir = directory('.');
 
 const files = dir.filter(f => statSync(f).isFile());
 const options = filesToOptions(files);
+
 const filesCryptit = dir.filter(f => extname(resolve(f)) === '.crypted');
 const optionsCryptit = filesToOptions(filesCryptit, '🔐');
 

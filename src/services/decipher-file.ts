@@ -10,11 +10,10 @@ export const decipherFile = (file: string, password: string) => {
     // const key = password.length;
     const iv = toNBytes(16, passwordInBytes.length);
 
-    const binaryContent = readFileSync(file, { encoding: 'utf-8' })
+    const binaryContent = readFileSync(file)
     const decipher = createDecipheriv(algorithm, passwordInBytes, iv);
 
-    let decrypted = decipher.update(binaryContent, 'binary', 'utf-8');
-    decrypted += decipher.final('utf-8');
+    let decrypted = Buffer.concat([decipher.update(binaryContent), decipher.final()]);
 
     const nameDecryptedFile = basename(file).split('.');
     nameDecryptedFile.pop();
