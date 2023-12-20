@@ -1,6 +1,6 @@
 {
   "name": "sifre",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "So simple program to encrypt any file using the module 'crypto' of node.js",
   "main": "dist/main.js",
   "type": "module",

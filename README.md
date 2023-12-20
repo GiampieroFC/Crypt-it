@@ -1,4 +1,4 @@
-# Sifer
+# Sifre
 
 This is a CLI (Command Line Interface) that uses the native Node.js module crypto and the library Inquirer.js to encrypt and decrypt files.
 
@@ -9,7 +9,7 @@ This is a CLI (Command Line Interface) that uses the native Node.js module crypt
 To install this CLI globally, you can use npm, yarn, or pnpm with the following command:
 
 ```bash
-npm install -g package_name
+npm install -g sifre
 ```
 
 ## Usage
