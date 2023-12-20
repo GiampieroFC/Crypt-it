@@ -1,10 +1,12 @@
 {
-  "name": "encryptor",
+  "name": "sifre",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "So simple program to encrypt any file using the module 'crypto' of node.js",
+  "main": "dist/main.js",
   "type": "module",
+  "bin": "dist/main.js",
   "scripts": {
+    "prepare": "npm run build",
     "build": "rimraf ./dist && tsc",
     "dev": "pnpm build && node ./dist/main.js",
     "start": "node ./dist/main.js"

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import inquirer from 'inquirer';
 import { statSync } from 'node:fs';
 import { resolve, extname } from 'node:path';
