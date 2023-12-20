@@ -16,7 +16,7 @@ npm install -g sifre
 Once installed, to encrypt a file, navigate to the folder where the file is located and run the following command:
 
 ```bash
-sifer
+sifre
 ```
 You will be prompted to select file to encrypt and then enter a password.
 
