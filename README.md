@@ -2,7 +2,7 @@
 
 This is a CLI (Command Line Interface) that uses the native Node.js module crypto and the library Inquirer.js to encrypt and decrypt files.
 
-> .[!WARNING]
+> .[!WARNING].
 > When using it, you will be prompted to enter a password, which you will need to remember to decrypt the file.
 
 ## Installation
@@ -20,7 +20,7 @@ sifer
 ```
 You will be prompted to select file to encrypt and then enter a password.
 
-> .[!CAUTION]
+> .[!CAUTION].
 > This application does not use exhaustive encryption methods, so it is not recommended to encrypt extremely important documents. Additionally, if the password is forgotten or entered incorrectly, there is a risk of completely losing the file.
 > 
 ## Decrypting a file
