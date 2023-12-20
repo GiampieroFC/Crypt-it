@@ -3,3 +3,5 @@ nodemon.json
 pnpm-lock.yaml
 dist/
 *.exe
+*.txt
+*.jpg
