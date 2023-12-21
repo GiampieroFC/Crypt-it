@@ -1,7 +1,7 @@
 {
   "name": "sifre",
-  "version": "1.0.1",
-  "description": "So simple program to encrypt any file using the module 'crypto' of node.js",
+  "version": "1.0.2",
+  "description": "CLI (Command Line Interface) that uses the native Node.js module crypto and the library Inquirer.js to encrypt and decrypt files.",
   "main": "dist/main.js",
   "type": "module",
   "bin": "dist/main.js",
@@ -11,9 +11,19 @@
     "dev": "pnpm build && node ./dist/main.js",
     "start": "node ./dist/main.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "CLI",
+    "Node.js",
+    "TypeScript",
+    "crypto",
+    "Inquirer.js",
+    "encryption",
+    "decryption",
+    "password",
+    "security"
+  ],
+  "author": "GiampieroFC ",
+  "license": "LGPL-3.0-or-later",
   "devDependencies": {
     "@types/inquirer": "9.0.6",
     "@types/node": "20.8.9"
@@ -21,5 +31,10 @@
   "dependencies": {
     "colors": "1.4.0",
     "inquirer": "9.2.11"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GiampieroFC/sifre.git"
+  },
+  "homepage": "https://github.com/GiampieroFC/sifre?tab=readme-ov-file#readme"
 }
