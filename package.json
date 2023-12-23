@@ -1,16 +1,17 @@
 {
   "name": "sifre",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "CLI (Command Line Interface) that uses the native Node.js module crypto and the library Inquirer.js to encrypt and decrypt files.",
   "main": "dist/main.js",
   "types": "dist",
   "type": "module",
-  "bin": "dist/main.js",
+  "bin": "dist/bin.js",
   "scripts": {
     "prepare": "pnpm run build",
     "build": "rimraf ./dist && tsc",
-    "dev": "pnpm build && node ./dist/main.js",
-    "start": "node ./dist/main.js"
+    "dev": "pnpm build && node ./dist/bin.js",
+    "start": "node ./dist/bin.js",
+    "pub": "pnpm version patch && pnpm publish"
   },
   "keywords": [
     "CLI",
@@ -23,7 +24,7 @@
     "password",
     "security"
   ],
-  "author": "GiampieroFC ",
+  "author": "GiampieroFC <giampieroferminicastillo@gmail.com>",
   "license": "LGPL-3.0-or-later",
   "devDependencies": {
     "@types/inquirer": "9.0.6",
@@ -32,7 +33,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "colors": "1.4.0",
     "inquirer": "9.2.11"
   },
   "repository": {
