@@ -3,10 +3,11 @@
   "version": "1.0.2",
   "description": "CLI (Command Line Interface) that uses the native Node.js module crypto and the library Inquirer.js to encrypt and decrypt files.",
   "main": "dist/main.js",
+  "types": "dist",
   "type": "module",
   "bin": "dist/main.js",
   "scripts": {
-    "prepare": "npm run build",
+    "prepare": "pnpm run build",
     "build": "rimraf ./dist && tsc",
     "dev": "pnpm build && node ./dist/main.js",
     "start": "node ./dist/main.js"
@@ -26,7 +27,9 @@
   "license": "LGPL-3.0-or-later",
   "devDependencies": {
     "@types/inquirer": "9.0.6",
-    "@types/node": "20.8.9"
+    "@types/node": "20.8.9",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "colors": "1.4.0",
