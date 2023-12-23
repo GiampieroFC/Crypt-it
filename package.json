@@ -5,7 +5,9 @@
   "main": "dist/main.js",
   "types": "dist",
   "type": "module",
-  "bin": "dist/bin.js",
+  "bin": {
+    "sifre": "./dist/bin.js"
+  },
   "scripts": {
     "prepare": "pnpm run build",
     "build": "rimraf ./dist && tsc",
@@ -25,7 +27,7 @@
     "security"
   ],
   "author": "GiampieroFC <giampieroferminicastillo@gmail.com>",
-  "license": "LGPL-3.0-or-later",
+  "license": "ISC",
   "devDependencies": {
     "@types/inquirer": "9.0.6",
     "@types/node": "20.8.9",
