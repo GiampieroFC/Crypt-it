@@ -13,6 +13,33 @@ npm install -g sifre
 ```
 
 ## Usage
+
+### Package
+
+``` javascript
+import { cipherContent, decipherContent, cipherFile, decipherFile } from "sifre";
+
+const greeting = 'Hello, World!';
+
+const buffer = Buffer.from(greeting);
+
+const cypher = cipherContent(buffer, 'myPassword');
+
+console.log(cypher); // <Buffer 13 b9 86 08 92 35 33 ad 79 15 86 56 2f 7c 99 52 e3 9b 61 fb 2d cb 26 42 56 47 a3 78 c0>
+
+console.log(cypher.toString()); // '\x13��\b�53�y\x15�V/|�R�a�-�&BVG�x�'
+
+const decypher = decipherContent(cypher, 'myPassword');
+
+console.log(decypher.toString()); // 'Hello, World!' 
+
+// --- //
+
+cipherFile('hello.txt', 'otherPassword'); // In the same directory the file 'hello.txt.crypted' will be created
+decipherFile('hello.txt.crypted', 'otherPassword'); // will decrypt the file 'hello.txt.crypted' and return to 'hello.txt' with the original content
+```
+
+### CLI
 Once installed, to encrypt a file, navigate to the folder where the file is located and run the following command:
 
 ```bash
