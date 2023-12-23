@@ -20,7 +20,7 @@ const options = filesToOptions(files);
 const filesCryptit = dir.filter(f => extname(resolve(f)) === '.crypted');
 const optionsCryptit = filesToOptions(filesCryptit, '🔐');
 
-const main = async () => {
+const bin = async () => {
 
     let toDo: Action;
     let isSure: Sure;
@@ -53,4 +53,4 @@ const main = async () => {
     return;
 }
 
-main();
+bin();
