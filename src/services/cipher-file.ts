@@ -6,9 +6,9 @@ export const cipherFile = (filePath: string, password: string) => {
 
     const content = readFileSync(filePath);
 
-    const { tag, encrypted } = cipherContent(content, password);
+    const cipher = cipherContent(content, password);
 
-    writeFileSync(join(dirname(filePath), `${basename(filePath)}.crypted`), Buffer.concat([tag, encrypted]));
+    writeFileSync(join(dirname(filePath), `${basename(filePath)}.crypted`), cipher);
 
     unlinkSync(filePath);
 }
