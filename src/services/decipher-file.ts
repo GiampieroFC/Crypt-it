@@ -2,16 +2,16 @@ import { readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import { decipherContent } from "./decipher-content.js";
 
-export const decipherFile = (file: string, password: string) => {
-    const binaryContent = readFileSync(file);
+export const decipherFile = (filePath: string, password: string) => {
+    const binaryContent = readFileSync(filePath);
 
     const decrypted = decipherContent(binaryContent, password)
 
-    const nameDecryptedFile = basename(file).split('.');
+    const nameDecryptedFile = basename(filePath).split('.');
     nameDecryptedFile.pop();
 
-    writeFileSync(join(dirname(file), `${nameDecryptedFile.join('.')}`), decrypted);
+    writeFileSync(join(dirname(filePath), `${nameDecryptedFile.join('.')}`), decrypted);
 
-    unlinkSync(file);
+    unlinkSync(filePath);
 }
 
