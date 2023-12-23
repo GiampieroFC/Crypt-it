@@ -1,6 +1,6 @@
 {
   "name": "sifre",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "CLI (Command Line Interface) that uses the native Node.js module crypto and the library Inquirer.js to encrypt and decrypt files.",
   "main": "dist/main.js",
   "types": "dist",
