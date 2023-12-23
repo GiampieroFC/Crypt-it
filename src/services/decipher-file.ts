@@ -1,19 +1,11 @@
 import { readFileSync, unlinkSync, writeFileSync } from "node:fs";
-import { toNBytes } from "../plugins/to-n-bytes.js"
-import { createDecipheriv } from "node:crypto";
 import { basename, dirname, join } from "node:path";
+import { decipherContent } from "./decipher-content.js";
 
 export const decipherFile = (file: string, password: string) => {
+    const binaryContent = readFileSync(file);
 
-    const algorithm = 'aes-256-cbc'
-    const passwordInBytes = toNBytes(32, password);
-    // const key = password.length;
-    const iv = toNBytes(16, passwordInBytes.length);
-
-    const binaryContent = readFileSync(file)
-    const decipher = createDecipheriv(algorithm, passwordInBytes, iv);
-
-    let decrypted = Buffer.concat([decipher.update(binaryContent), decipher.final()]);
+    const decrypted = decipherContent(binaryContent, password)
 
     const nameDecryptedFile = basename(file).split('.');
     nameDecryptedFile.pop();
@@ -22,3 +14,4 @@ export const decipherFile = (file: string, password: string) => {
 
     unlinkSync(file);
 }
+

@@ -14,7 +14,7 @@ import { optionsForInquirer } from './config/options-for-inquirer.js';
 
 const dir = directory('.');
 
-const files = dir.filter(f => statSync(f).isFile());
+const files = dir.filter(f => statSync(f).isFile() && extname(resolve(f)) !== '.crypted');
 const options = filesToOptions(files);
 
 const filesCryptit = dir.filter(f => extname(resolve(f)) === '.crypted');
@@ -38,6 +38,11 @@ const optionsCryptit = filesToOptions(filesCryptit, '🔐');
     if (toDo === Action.cipher) {
         const opt = await inquirer.prompt(optionsForInquirer(options));
 
+        if (opt.files.length < 1) {
+            console.log(`You haven't chosen any file to ${toDo}`);
+            return;
+        }
+
         opt.files.forEach((f: string) => {
             cipherFile(f, opt.password);
         });
@@ -45,6 +50,11 @@ const optionsCryptit = filesToOptions(filesCryptit, '🔐');
 
     if (toDo === Action.decipher) {
         const opt = await inquirer.prompt(optionsForInquirer(optionsCryptit));
+
+        if (opt.files.length < 1) {
+            console.log(`You haven't chosen any file to ${toDo}`);
+            return;
+        }
 
         opt.files.forEach((f: string) => {
             decipherFile(f, opt.password);
