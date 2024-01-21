@@ -36,7 +36,10 @@ const spin = spinner();
         shouldTodo = await confirm({
             message: `Do you want to ${color.green((todo as string).toLocaleUpperCase())}👈?`,
         });
-        isCancel(shouldTodo);
+
+        if (typeof shouldTodo === 'symbol') {
+            throw new Error();
+        }
 
     } while (!shouldTodo);
 
@@ -137,10 +140,12 @@ const spin = spinner();
     }
 
 })()
-    .catch(console.error)
+    .catch(() => {
+        cancel('\n🚨 Oh, oh! Something went wrong, execution canceled');
+    })
     .finally(() => {
         outro(
-            `Problems? ${color.underline(color.cyan('https://example.com/issues'))}`
+            `Problems? ${color.underline(color.cyan('https://github.com/GiampieroFC/sifre'))}`
         );
         process.exit(0);
     });

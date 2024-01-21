@@ -20,8 +20,7 @@ export const decipherContent = (binaryContent: Buffer, password: string): Buffer
 
         return decrypted;
     } catch (error) {
-        // console.log(`${color.bgWhite(color.red('\n🚨 Oh, oh! Something went wrong, check your password\n'))}`);
-        throw new Error("error error error!!!")
+        throw new Error();
     }
 }
 
