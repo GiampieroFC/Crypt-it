@@ -1,5 +1,12 @@
+// export interface OptionsInquire {
+//     name: string;
+//     value: string;
+//     short: string;
+// }
+
 export interface Options {
-    name: string;
+    label: string;
     value: string;
-    short: string;
+    hint?: string;
 }
+
