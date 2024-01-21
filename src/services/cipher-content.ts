@@ -1,5 +1,5 @@
 import { createCipheriv } from "node:crypto";
-import { toNBytes } from "../plugins/to-n-bytes.js";
+import { toNBytes } from "./to-n-bytes.js";
 
 export const cipherContent = (content: Buffer, password: string) => {
 

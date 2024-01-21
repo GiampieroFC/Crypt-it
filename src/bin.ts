@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { isCancel, cancel, text, intro, outro, confirm, groupMultiselect, password, spinner } from '@clack/prompts';
+import { isCancel, cancel, text, intro, outro, confirm, groupMultiselect, password, spinner, note } from '@clack/prompts';
 import color from 'picocolors';
 import { statSync } from 'node:fs';
 import { resolve, extname } from 'node:path';
@@ -10,7 +10,7 @@ import { whatToDo } from './views/what-to-do.js';
 import { cipherFile } from './services/cipher-file.js';
 import { decipherFile } from './services/decipher-file.js';
 
-const canceled = (value: string | symbol) => {
+const canceled = (value: unknown,) => {
     if (isCancel(value)) {
         cancel('Operation cancelled.');
         process.exit(0);
@@ -60,15 +60,21 @@ const spin = spinner();
             }
         })
 
+        canceled(selectedFiles);
+
         if ((selectedFiles as string[]).length < 1) {
             console.log(`You haven't chosen any file to ${todo}`);
-            process.exit(1);
+            process.exit(0);
         }
+
+        note('Don\'t forget your password, the files will need to be decrypted.', color.red('⚠️ Don\'t forget!'))
 
         const pw = await password({
             message: 'Provide a password',
             mask: '🤐'
         });
+
+        canceled(pw);
 
         spin.start(`${color.dim('ciphering...')}`);
 
@@ -94,87 +100,38 @@ const spin = spinner();
             }
         })
 
+        canceled(selectedFiles);
+
         if ((selectedFiles as string[]).length < 1) {
             console.log(`You haven't chosen any file to ${todo}`);
-            process.exit(1);
+            process.exit(0);
         }
 
         const pw = await password({
             message: 'Enter the password',
-            mask: '🤐'
+            mask: '🤐',
+            validate: (value) => {
+                if (!value) return 'Please enter a password.';
+                if (value.length < 3)
+                    return 'Password should have at least 3 characters.';
+            },
         });
+
+        canceled(pw);
 
         spin.start(`${color.dim('deciphering...')}`);
 
-        (selectedFiles as string[]).forEach((f: string) => {
-            decipherFile(f, (pw as string));
-        });
+        try {
+            (selectedFiles as string[]).forEach((f: string) => {
+                decipherFile(f, (pw as string));
+            });
+        } catch (error) {
+            cancel(`${color.bgWhite(color.red('\n🚨 Oh, oh! Something went wrong, check your password\n'))}`);
+            process.exit(0);
+        }
 
         spin.stop(`${color.yellow('👍 Decrypted!')}`);
     }
-
-
-
-    //     password: () =>
-    //         p.password({
-    //             message: 'Provide a password',
-    //             validate: (value) => {
-    //                 if (!value) return 'Please enter a password.';
-    //                 if (value.length < 5)
-    //                     return 'Password should have at least 5 characters.';
-    //             },
-    //         }),
-    //     type: ({ results }) =>
-    //         p.select({
-    //             message: `Pick a project type within "${results.path}"`,
-    //             initialValue: 'ts',
-    //             maxItems: 5,
-    //             options: [
-    //                 { value: 'ts', label: 'TypeScript' },
-    //                 { value: 'js', label: 'JavaScript' },
-    //                 { value: 'rust', label: 'Rust' },
-    //                 { value: 'go', label: 'Go' },
-    //                 { value: 'python', label: 'Python' },
-    //                 { value: 'coffee', label: 'CoffeeScript', hint: 'oh no' },
-    //             ],
-    //         }),
-    //     tools: () =>
-    //         p.groupMultiselect({
-    //             message: 'Select additional tools.',
-    //             initialValues: ['prettier', 'eslint'],
-    //             options: {
-    //                 'All Tools': [
-    //                     { value: 'prettier', label: 'Prettier', hint: 'recommended' },
-    //                     { value: 'eslint', label: 'ESLint', hint: 'recommended' },
-    //                     { value: 'stylelint', label: 'Stylelint' },
-    //                     { value: 'gh-action', label: 'GitHub Action' },
-    //                 ],
-    //             },
-    //         }),
-    //     install: () =>
-    //         p.confirm({
-    //             message: 'Install dependencies?',
-    //             initialValue: false,
-    //         }),
-    // },
-    // {
-    //     onCancel: () => {
-    //         p.cancel('Operation cancelled.');
-    //         process.exit(0);
-    //     },
-    // }
-
-    // if (project.install) {
-    //     const s = p.spinner();
-    //     s.start('Installing via pnpm');
-    //     await setTimeout(2500);
-    //     s.stop('Installed via pnpm');
-    // }
-
-    // let nextSteps = `cd ${project.path}        \n${project.install ? '' : 'pnpm install\n'
-    //     }pnpm dev`;
-
-    // p.note(nextSteps, 'Next steps.');
 
 })()
     .catch(console.error)

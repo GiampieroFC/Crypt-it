@@ -1,5 +1,7 @@
 import { createDecipheriv } from "node:crypto";
-import { toNBytes } from "../plugins/to-n-bytes.js";
+import { toNBytes } from "./to-n-bytes.js";
+import color from 'picocolors';
+
 
 export const decipherContent = (binaryContent: Buffer, password: string): Buffer => {
 
@@ -13,8 +15,13 @@ export const decipherContent = (binaryContent: Buffer, password: string): Buffer
     const decipher = createDecipheriv(algorithm, passwordInBytes, iv);
     decipher.setAuthTag(authTag);
 
-    let decrypted = Buffer.concat([decipher.update(encryptedData), decipher.final()]);
+    try {
+        let decrypted = Buffer.concat([decipher.update(encryptedData), decipher.final()]);
 
-    return decrypted;
+        return decrypted;
+    } catch (error) {
+        // console.log(`${color.bgWhite(color.red('\n🚨 Oh, oh! Something went wrong, check your password\n'))}`);
+        throw new Error("error error error!!!")
+    }
 }
 

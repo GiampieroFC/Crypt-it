@@ -3,7 +3,3 @@ export enum Action {
     decipher = 'decipher',
 }
 
-export enum Sure {
-    yes = '👍 Sure.',
-    no = '👎 No.',
-}
