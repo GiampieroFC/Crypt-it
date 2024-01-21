@@ -31,10 +31,12 @@ const spin = spinner();
     do {
 
         todo = await whatToDo();
+        isCancel(todo);
 
         shouldTodo = await confirm({
             message: `Do you want to ${color.green((todo as string).toLocaleUpperCase())}👈?`,
         });
+        isCancel(shouldTodo);
 
     } while (!shouldTodo);
 
@@ -44,6 +46,7 @@ const spin = spinner();
         placeholder: "Enter to open here",
         defaultValue: resolve('.'),
     })
+    isCancel(pathDir);
 
     if (todo === Action.cipher) {
 
